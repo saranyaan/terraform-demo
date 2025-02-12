@@ -3,5 +3,8 @@
 + Write Terraform Code for Kubernetes - main.tf
 # Deploy Using Terraform
 + terraform init
-+ terraform apply auto-approve
++ terraform apply -auto-approve
+# verify the deployment
++ kubectl get pods
++ kubectl get svc
   
