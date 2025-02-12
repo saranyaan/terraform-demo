@@ -1,0 +1,30 @@
+name: Deploy to Kubernetes using Terraform
+
+on:
+  push:
+    branches:
+      - main  # Runs when pushing to the main branch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest  # GitHub-hosted Linux machine
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3  # Pulls the latest code
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: latest  # Uses the latest Terraform version
+
+    - name: Configure Kubernetes
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config  # Set up kubeconfig
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
